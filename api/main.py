@@ -42,28 +42,28 @@ app = FastAPI(
 
 # ── Request / Response schemas ────────────────────────────────────────────────
 class CustomerInput(BaseModel):
-    gender:           Literal['Male', 'Female']                          = Field(..., example='Female')
-    SeniorCitizen:    Literal[0, 1]                                      = Field(..., example=0)
-    Partner:          Literal['Yes', 'No']                               = Field(..., example='Yes')
-    Dependents:       Literal['Yes', 'No']                               = Field(..., example='No')
-    tenure:           int                                                 = Field(..., ge=0, le=72, example=5)
-    PhoneService:     Literal['Yes', 'No']                               = Field(..., example='Yes')
-    MultipleLines:    Literal['Yes', 'No', 'No phone service']           = Field(..., example='No')
-    InternetService:  Literal['DSL', 'Fiber optic', 'No']               = Field(..., example='Fiber optic')
-    OnlineSecurity:   Literal['Yes', 'No', 'No internet service']        = Field(..., example='No')
-    OnlineBackup:     Literal['Yes', 'No', 'No internet service']        = Field(..., example='No')
-    DeviceProtection: Literal['Yes', 'No', 'No internet service']        = Field(..., example='No')
-    TechSupport:      Literal['Yes', 'No', 'No internet service']        = Field(..., example='No')
-    StreamingTV:      Literal['Yes', 'No', 'No internet service']        = Field(..., example='No')
-    StreamingMovies:  Literal['Yes', 'No', 'No internet service']        = Field(..., example='No')
-    Contract:         Literal['Month-to-month', 'One year', 'Two year']  = Field(..., example='Month-to-month')
-    PaperlessBilling: Literal['Yes', 'No']                               = Field(..., example='Yes')
+    gender:           Literal['Male', 'Female']                        = Field(..., example='Female')
+    SeniorCitizen:    Literal[0, 1]                                    = Field(..., example=0)
+    Partner:          Literal['Yes', 'No']                             = Field(..., example='Yes')
+    Dependents:       Literal['Yes', 'No']                             = Field(..., example='No')
+    tenure:           int                                               = Field(..., ge=0, le=72, example=5)
+    PhoneService:     Literal['Yes', 'No']                             = Field(..., example='Yes')
+    MultipleLines:    Literal['Yes', 'No', 'No phone service']         = Field(..., example='No')
+    InternetService:  Literal['DSL', 'Fiber optic', 'No']             = Field(..., example='Fiber optic')
+    OnlineSecurity:   Literal['Yes', 'No', 'No internet service']      = Field(..., example='No')
+    OnlineBackup:     Literal['Yes', 'No', 'No internet service']      = Field(..., example='No')
+    DeviceProtection: Literal['Yes', 'No', 'No internet service']      = Field(..., example='No')
+    TechSupport:      Literal['Yes', 'No', 'No internet service']      = Field(..., example='No')
+    StreamingTV:      Literal['Yes', 'No', 'No internet service']      = Field(..., example='No')
+    StreamingMovies:  Literal['Yes', 'No', 'No internet service']      = Field(..., example='No')
+    Contract:         Literal['Month-to-month', 'One year', 'Two year'] = Field(..., example='Month-to-month')
+    PaperlessBilling: Literal['Yes', 'No']                             = Field(..., example='Yes')
     PaymentMethod:    Literal[
         'Electronic check', 'Mailed check',
         'Bank transfer (automatic)', 'Credit card (automatic)'
-    ]                                                                     = Field(..., example='Electronic check')
-    MonthlyCharges:   float                                               = Field(..., ge=0, example=70.35)
-    TotalCharges:     float                                               = Field(..., ge=0, example=351.75)
+    ]                                                                   = Field(..., example='Electronic check')
+    MonthlyCharges:   float                                             = Field(..., ge=0, example=70.35)
+    TotalCharges:     float                                             = Field(..., ge=0, example=351.75)
 
 
 class ShapReason(BaseModel):
@@ -96,8 +96,8 @@ def build_features(customer: CustomerInput) -> pd.DataFrame:
         (df['StreamingTV'] == 'Yes') | (df['StreamingMovies'] == 'Yes')
     ).astype(int)
     df['has_protection'] = (
-        (df['OnlineSecurity'] == 'Yes') |
-        (df['OnlineBackup']   == 'Yes') |
+        (df['OnlineSecurity']   == 'Yes') |
+        (df['OnlineBackup']     == 'Yes') |
         (df['DeviceProtection'] == 'Yes')
     ).astype(int)
     df['charge_per_tenure'] = df['MonthlyCharges'] / (df['tenure'] + 1)
@@ -146,31 +146,34 @@ def predict(customer: CustomerInput):
     if not MODEL_LOADED:
         raise HTTPException(status_code=503, detail="Model not loaded. Run src/train.py first.")
 
-    X    = build_features(customer)
-    prob = float(pipeline.predict_proba(X)[0][1])
+    X          = build_features(customer)
+    prob       = float(pipeline.predict_proba(X)[0][1])
     prediction = "Churn" if prob >= 0.5 else "Stay"
-    risk = "High" if prob >= 0.55 else ("Moderate" if prob >= 0.30 else "Low")
+    risk       = "High" if prob >= 0.55 else ("Moderate" if prob >= 0.30 else "Low")
 
     # SHAP explanation for this specific customer
     X_transformed = preprocessor.transform(X)
+    top_reasons   = []
 
     try:
         from sklearn.linear_model import LogisticRegression as LR
-        if isinstance(clf, LR):
-            explainer = shap.LinearExplainer(clf, X_transformed)
-            sv        = explainer.shap_values(X_transformed)[0]
-        else:
-            explainer = shap.TreeExplainer(clf)
-            sv_raw    = explainer.shap_values(X_transformed)
-            sv        = sv_raw[1][0] if isinstance(sv_raw, list) else sv_raw[0]
 
+        if isinstance(clf, LR):
+            # Use coefficients directly for reliable single-sample explanation
+            coefs      = clf.coef_[0]
+            shap_vals  = coefs * X_transformed[0]
+        else:
+            explainer  = shap.TreeExplainer(clf)
+            sv_raw     = explainer.shap_values(X_transformed)
+            shap_vals  = sv_raw[1][0] if isinstance(sv_raw, list) else sv_raw[0]
+
+        # Pair feature names with their SHAP values and sort by absolute impact
         shap_pairs = sorted(
-            zip(feature_names, sv, X_transformed[0]),
+            zip(feature_names, shap_vals, X_transformed[0]),
             key=lambda x: abs(x[1]),
             reverse=True
         )
 
-        top_reasons = []
         for feat, shap_val, raw_val in shap_pairs[:3]:
             top_reasons.append(ShapReason(
                 feature    = feat,
@@ -178,7 +181,10 @@ def predict(customer: CustomerInput):
                 impact     = "increases churn risk" if shap_val > 0 else "decreases churn risk",
                 shap_value = round(float(shap_val), 4)
             ))
-    except Exception:
+
+    except Exception as e:
+        # Log the error but don't crash — return prediction without SHAP
+        print(f"SHAP error: {e}")
         top_reasons = []
 
     action = retention_action(prob, [r.model_dump() for r in top_reasons])
