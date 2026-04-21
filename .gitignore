@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.env
+.DS_Store
+venv/
+.venv/
+*.egg-info/
+# Note: models/ folder is intentionally NOT ignored
+# models/churn_pipeline.pkl must be committed for Streamlit Cloud deployment
