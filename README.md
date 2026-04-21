@@ -282,4 +282,4 @@ Open to Data Analyst · Junior Data Scientist · ML Engineer roles
 
 ---
 
-*If this project was useful, please consider giving it a ⭐*
+
