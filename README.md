@@ -137,15 +137,15 @@ dim_region
 
 # Dashboard Suite
 
-01 Executive Command Center
+Executive Overview
 
-02 Customer Health
+Customer Health
 
-03 Retention Intelligence
+Cohort Analysis
 
-04 Revenue at Risk
+Revenue at Risk
 
-05 Operational Health
+Churn Analysis
 
 ---
 
