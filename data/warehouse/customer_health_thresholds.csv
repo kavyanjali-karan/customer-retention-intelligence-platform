@@ -1,0 +1,5 @@
+health_band,min_score,max_score
+Healthy,80,100
+Monitor,60,79
+At Risk,40,59
+Critical,0,39

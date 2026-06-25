@@ -1,0 +1,16 @@
+metric_name,definition,owner,refresh_frequency
+ARR,Annual recurring revenue,BI Team,Daily
+MRR,Monthly recurring revenue,BI Team,Daily
+Retention Rate,Customer retention percentage,BI Team,Daily
+NRR,Net revenue retention,BI Team,Daily
+GRR,Gross revenue retention,BI Team,Daily
+Revenue At Risk,Expected revenue loss,BI Team,Daily
+Customer Health,Customer health score,BI Team,Daily
+Churn Probability,Predicted churn likelihood,BI Team,Daily
+Expansion Revenue,Upsell revenue,BI Team,Daily
+Contraction Revenue,Revenue contraction,BI Team,Daily
+Active Customers,Active customer count,BI Team,Daily
+Support CSAT,Support satisfaction score,BI Team,Daily
+NPS,Net promoter score,BI Team,Daily
+Renewal Rate,Renewal percentage,BI Team,Daily
+Product Adoption,Feature usage adoption,BI Team,Daily

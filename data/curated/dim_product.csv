@@ -1,0 +1,21 @@
+product_key,product_id,product_family,product_name,list_price
+1,PROD001,Governance,Governance Product 1,882
+2,PROD002,Analytics,Analytics Product 2,413
+3,PROD003,Governance,Governance Product 3,693
+4,PROD004,Governance,Governance Product 4,923
+5,PROD005,Analytics,Analytics Product 5,624
+6,PROD006,Automation,Automation Product 6,263
+7,PROD007,Analytics,Analytics Product 7,1453
+8,PROD008,Analytics,Analytics Product 8,448
+9,PROD009,Governance,Governance Product 9,635
+10,PROD010,Analytics,Analytics Product 10,638
+11,PROD011,Analytics,Analytics Product 11,1197
+12,PROD012,Data Platform,Data Platform Product 12,1126
+13,PROD013,Data Platform,Data Platform Product 13,364
+14,PROD014,Automation,Automation Product 14,641
+15,PROD015,Analytics,Analytics Product 15,890
+16,PROD016,Governance,Governance Product 16,1443
+17,PROD017,Data Platform,Data Platform Product 17,1243
+18,PROD018,Data Platform,Data Platform Product 18,1409
+19,PROD019,Governance,Governance Product 19,1480
+20,PROD020,Data Platform,Data Platform Product 20,867

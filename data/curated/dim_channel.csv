@@ -1,0 +1,9 @@
+channel_key,channel_id,channel_name
+1,CH01,Direct
+2,CH02,Partner
+3,CH03,Referral
+4,CH04,Organic
+5,CH05,Google
+6,CH06,LinkedIn
+7,CH07,Email
+8,CH08,Events
