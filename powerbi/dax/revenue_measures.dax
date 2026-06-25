@@ -1,0 +1,19 @@
+MRR =
+
+SUM(
+
+fact_customer_retention[revenue]
+
+)
+
+--------------------------------
+
+Revenue Target =
+
+500000
+
+--------------------------------
+
+Revenue Variance =
+
+[MRR]-[Revenue Target]

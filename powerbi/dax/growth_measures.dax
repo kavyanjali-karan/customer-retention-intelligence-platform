@@ -1,0 +1,29 @@
+Visitors =
+
+SUM(
+
+fact_customer_retention[visitors]
+
+)
+
+--------------------------------
+
+Signups =
+
+SUM(
+
+fact_customer_retention[signups]
+
+)
+
+--------------------------------
+
+Signup Rate =
+
+DIVIDE(
+
+[Signups],
+
+[Visitors]
+
+)

@@ -1,0 +1,33 @@
+Revenue MTD =
+
+TOTALMTD(
+
+[Total Revenue],
+
+dim_date[full_date]
+
+)
+
+--------------------------------
+
+Revenue QTD =
+
+TOTALQTD(
+
+[Total Revenue],
+
+dim_date[full_date]
+
+)
+
+--------------------------------
+
+Revenue YTD =
+
+TOTALYTD(
+
+[Total Revenue],
+
+dim_date[full_date]
+
+)

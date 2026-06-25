@@ -1,0 +1,29 @@
+Total Revenue =
+
+SUM(
+
+fact_customer_retention[revenue]
+
+)
+
+--------------------------------
+
+Paid Customers =
+
+SUM(
+
+fact_customer_retention[paid_customers]
+
+)
+
+--------------------------------
+
+Revenue Per Customer =
+
+DIVIDE(
+
+[Total Revenue],
+
+[Paid Customers]
+
+)

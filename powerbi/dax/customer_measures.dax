@@ -1,0 +1,39 @@
+Customer Count =
+
+DISTINCTCOUNT(
+
+dim_customer[customer_id]
+
+)
+
+--------------------------------
+
+Retention Rate =
+
+1-
+
+DIVIDE(
+
+SUM(
+
+fact_customer_retention[churned_customers]
+
+),
+
+SUM(
+
+fact_customer_retention[paid_customers]
+
+)
+
+)
+
+--------------------------------
+
+Customer Health Score =
+
+AVERAGE(
+
+fact_customer_retention[churn_probability]
+
+)

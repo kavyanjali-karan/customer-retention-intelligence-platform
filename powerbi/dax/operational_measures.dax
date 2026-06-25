@@ -1,0 +1,23 @@
+Rows Loaded =
+
+COUNTROWS(
+
+fact_customer_retention
+
+)
+
+--------------------------------
+
+Refresh Status =
+
+"Success"
+
+--------------------------------
+
+Customers Loaded =
+
+DISTINCTCOUNT(
+
+fact_customer_retention[customer_key]
+
+)
