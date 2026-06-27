@@ -1,220 +1,245 @@
+````markdown
 # Customer Retention Intelligence Platform
 
-## Executive Summary
-
-Customer retention is one of the highest leverage business metrics for subscription businesses.
-
-This platform provides governed KPI definitions, executive reporting, semantic analytics, and customer lifecycle intelligence for business stakeholders through a centralized Business Intelligence architecture.
-
-Unlike predictive-only solutions, the platform combines SQL transformation layers, dimensional modeling, Python automation, Power BI semantic models, Tableau dashboards, FastAPI services, and SHAP explanations into a single governed reporting ecosystem.
+A production-style Business Intelligence reporting system designed to transform operational customer data into governed analytical datasets for customer lifecycle reporting, retention analysis, and executive decision-making.
 
 ---
 
-# Business Objectives
+## Why This Reporting System Exists
 
-- Monitor customer retention trends
-- Detect revenue at risk
-- Standardize KPI definitions
-- Support executive business reviews
-- Enable customer lifecycle intelligence
-- Deliver explainable retention insights
+Customer retention depends on understanding how customer behavior evolves over time rather than measuring churn as a single outcome. Reliable reporting requires consistent business metrics, standardized data preparation, and analytical models that support recurring business decisions.
+
+This repository demonstrates how operational customer data can be transformed into curated reporting datasets through SQL, Python ETL, dimensional modeling, semantic modeling, and engineering documentation before it reaches Power BI.
 
 ---
 
-# Stakeholders
+## Business Domain
 
-Executive Leadership
+The reporting workflow focuses on measuring customer retention across the complete customer lifecycle.
 
-Finance
+The reporting model supports analysis across:
 
-Customer Success
+- Customer activity
+- Customer health
+- Customer retention
+- Revenue at Risk
+- Cohort performance
+- Product adoption
+- Regional performance
+- Acquisition channel performance
 
-Marketing
-
-Product
-
-Business Intelligence Engineering
-
----
-
-# Business Questions
-
-Which customer segments have the highest churn?
-
-Which regions generate the highest revenue risk?
-
-Which acquisition channels retain customers most effectively?
-
-How much Monthly Recurring Revenue is currently at risk?
-
-Which products demonstrate declining customer health?
+Instead of treating reporting as individual dashboards, the repository organizes business reporting around reusable analytical datasets and standardized KPI definitions.
 
 ---
 
-# KPI Framework
+## Reporting Architecture
 
-Monthly Recurring Revenue
+```text
+Operational Customer Data
+           │
+           ▼
+SQL Transformation
+           │
+           ▼
+Python ETL & Data Validation
+           │
+           ▼
+Curated Analytical Layer
+           │
+           ▼
+Dimensional Model
+           │
+           ▼
+Power BI Semantic Model
+           │
+           ▼
+Executive Reporting
+```
 
-Retention Rate
-
-Churn Rate
-
-Revenue at Risk
-
-Expansion Revenue
-
-Customer Health Score
-
-Average Revenue Per Customer
-
-Activation Rate
-
-Trial Conversion
-
----
-
-# Architecture
-
-Raw Data
-
-↓
-
-SQL Staging
-
-↓
-
-Dimension Tables
-
-↓
-
-Fact Table
-
-↓
-
-Business Marts
-
-↓
-
-Metric Layer
-
-↓
-
-Semantic Model
-
-↓
-
-Power BI
-
-↓
-
-Tableau
-
-↓
-
-Executive Business Review
+The reporting workflow separates transformation, business logic, analytical modeling, and visualization into independent layers that support maintainable Business Intelligence reporting.
 
 ---
 
-# Dimensional Model
+## Repository Structure
 
-Fact
+```text
+customer-retention-intelligence-platform/
 
-fact_customer_retention
+├── api/
+├── data/
+│   ├── raw/
+│   ├── curated/
+│   └── warehouse/
+│
+├── sql/
+├── python/
+├── powerbi/
+├── documentation/
+├── outputs/
+└── README.md
+```
 
-Dimensions
-
-dim_customer
-
-dim_date
-
-dim_product
-
-dim_channel
-
-dim_region
-
----
-
-# Dashboard Suite
-
-Executive Overview
-
-Customer Health
-
-Cohort Analysis
-
-Revenue at Risk
-
-Churn Analysis
+The repository organizes reporting assets, transformation logic, analytical datasets, documentation, and API services into clearly separated components.
 
 ---
 
-# Technology Stack
+## Analytical Model
 
-SQL
+Customer retention reporting is organized around a dimensional model that separates descriptive business entities from measurable customer activity.
 
-Python
+### Dimensions
 
-FastAPI
+- Customer
+- Product
+- Region
+- Channel
+- Date
 
-Power BI
+### Reporting Facts
 
-Tableau
+The reporting model captures business activity across:
 
-SHAP
+- Customer Activity
+- Customer Retention
+- Revenue Performance
 
-Pandas
-
-Scikit-learn
-
-GitHub Actions
-
----
-
-# Repository Structure
-
-sql/
-
-python/
-
-api/
-
-powerbi/
-
-tableau/
-
-docs/
-
-tests/
-
-data/
-
-models/
-
-assets/
-
-outputs/
+This dimensional structure enables consistent reporting across executive dashboards, cohort analysis, customer health monitoring, and revenue reporting.
 
 ---
 
-# Business Intelligence Principles
+## Data Preparation
 
-Single Source of Truth
+Operational customer data is transformed through SQL and Python before being loaded into the reporting model.
 
-Reusable Metrics
+The preparation workflow includes:
 
-Semantic Consistency
+- Data cleansing
+- Business rule standardization
+- Data validation
+- Curated analytical datasets
+- Reporting-ready outputs
 
-Star Schema Modeling
-
-Governed KPI Definitions
-
-Executive Decision Support
-
-Operational Monitoring
+Preparing business logic before visualization helps maintain consistent reporting across analytical assets.
 
 ---
 
-# License
+## API Services
 
-MIT
+The repository extends beyond reporting by exposing customer retention functionality through a dedicated FastAPI layer.
+
+Available services support:
+
+- Retention analysis
+- Customer recommendations
+- Business metrics
+- Health monitoring
+- Explainable retention insights
+
+The API layer allows analytical outputs to be consumed independently from reporting dashboards while maintaining consistent business logic.
+
+---
+
+## Power BI Reporting
+
+Power BI consumes curated analytical datasets through a semantic model designed for customer retention reporting.
+
+Reporting assets focus on:
+
+- Executive KPI monitoring
+- Customer health
+- Cohort analysis
+- Revenue at Risk
+- Retention trends
+- Product performance
+- Regional analysis
+- Channel performance
+
+Business calculations remain centralized within the reporting model to ensure metric consistency across reports.
+
+---
+
+## Business Documentation
+
+Engineering documentation is maintained alongside implementation and includes:
+
+- Reporting architecture
+- Business context
+- Metric dictionary
+- Business glossary
+- Data dictionary
+- Reporting playbook
+- Weekly Business Review
+- Executive summary
+- Data quality documentation
+
+Documentation forms part of the reporting solution by providing consistent definitions for business metrics and reporting standards.
+
+---
+
+## Engineering Decisions
+
+The reporting system is designed around several core engineering principles.
+
+- Transform operational data before reporting.
+- Standardize business metrics through curated analytical datasets.
+- Separate business logic from visualization.
+- Organize reporting through dimensional modeling.
+- Document reporting standards alongside implementation.
+- Reuse governed datasets across reporting assets and API services.
+
+---
+
+## Technology
+
+**Reporting**
+
+- Power BI
+- DAX
+- Power Query
+
+**Data Engineering**
+
+- SQL
+- Python
+- ETL
+- Data Validation
+
+**Modeling**
+
+- Dimensional Modeling
+- Semantic Modeling
+
+**Application**
+
+- FastAPI
+
+**Engineering**
+
+- Reporting Architecture
+- KPI Governance
+- Business Documentation
+- Git
+- GitHub
+
+---
+
+## Portfolio Context
+
+This repository is part of a Business Intelligence Engineering portfolio demonstrating how reporting systems are designed through reporting architecture, SQL transformation, Python ETL, dimensional modeling, KPI governance, semantic modeling, and executive reporting.
+
+Related repositories:
+
+- Executive KPI Governance Platform
+- Growth Funnel Performance Review
+- Marketplace Growth Performance Review
+
+Together, these repositories demonstrate reporting systems across customer retention, KPI governance, growth analytics, and marketplace performance while following a consistent Business Intelligence engineering approach.
+
+---
+
+## Author
+
+**Kavyanjali Karan**
+
+Computer Science student building production-style Business Intelligence reporting systems with a focus on reporting architecture, dimensional modeling, KPI governance, semantic modeling, and engineering documentation.
+````
