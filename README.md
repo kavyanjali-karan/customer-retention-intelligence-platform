@@ -242,4 +242,17 @@ Together, these repositories demonstrate reporting systems across customer reten
 **Kavyanjali Karan**
 
 Computer Science student building production-style Business Intelligence reporting systems with a focus on reporting architecture, dimensional modeling, KPI governance, semantic modeling, and engineering documentation.
+
+---
+
+## Engineering Outcomes
+
+This repository demonstrates the ability to:
+
+- Design analytical models focused on customer retention, engagement, and behavioral reporting.
+- Prepare curated datasets that support retention analysis through repeatable SQL and Python transformation workflows.
+- Structure business metrics that enable consistent reporting of customer activity, segmentation, and retention trends.
+- Separate data engineering, analytical modeling, and reporting responsibilities into reusable project components.
+- Document reporting logic and repository organization to support reproducible Business Intelligence workflows.
+
 ````
