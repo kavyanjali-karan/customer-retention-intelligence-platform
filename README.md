@@ -1,258 +1,166 @@
-````markdown
 # Customer Retention Intelligence Platform
 
-A production-style Business Intelligence reporting system designed to transform operational customer data into governed analytical datasets for customer lifecycle reporting, retention analysis, and executive decision-making.
+[![CI](https://github.com/kavyanjali-karan/customer-retention-intelligence-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/kavyanjali-karan/customer-retention-intelligence-platform/actions/workflows/ci.yml) [![tests: 10 passed](https://img.shields.io/badge/tests-10%20passed-2ea44f)](tests/) [![license: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
----
+A churn prediction and retention analytics system for a **simulated** 15,000-customer SaaS business: it scores every customer for churn risk, maps each segment to targeted retention actions, and projects 8–12% buyer lifetime value lift on the highest-risk cohort ($554K–$831K annualized impact).
 
-## Why This Reporting System Exists
+**Live dashboard:** [interactive dashboard](https://kavyanjali-karan.github.io/customer-retention-intelligence-platform/dashboard.html) — updated automatically whenever this repo changes.
 
-Customer retention depends on understanding how customer behavior evolves over time rather than measuring churn as a single outcome. Reliable reporting requires consistent business metrics, standardized data preparation, and analytical models that support recurring business decisions.
+## Why churn was invisible
 
-This repository demonstrates how operational customer data can be transformed into curated reporting datasets through SQL, Python ETL, dimensional modeling, semantic modeling, and engineering documentation before it reaches Power BI.
+Customer churn was understood in aggregate but not at the individual level. The success team had no way to prioritize which accounts to save first, and retention campaigns were deployed uniformly regardless of risk. High-value Enterprise accounts churned at the same rate as SMBs, costing the business ~$54M in annual churn revenue with no structured intervention process.
 
----
+## How it's put together
 
-## Business Domain
+1. **Churn Risk Scoring** — FastAPI service that scores each of 15,000 customers for churn probability using activity signals (login frequency, feature usage, support tickets) and revenue history
+2. **Segment-Level Retention Actions** — Mapped each risk tier to specific intervention playbooks for SMB, Mid-Market, and Enterprise segments
+3. **Revenue-at-Risk Analysis** — Quantified $54.3M in churn revenue and $54.3M in contraction, with per-customer revenue exposure for prioritized outreach
+4. **LTV Impact Modeling** — Projected that targeting the top 50 highest-risk accounts ($611K ARR, $577K revenue at risk) with 8–12% LTV improvement produces $554K–$831K in annualized recovered revenue
+5. **Executive Dashboards** — Power BI reports covering customer health scores, cohort retention, and revenue-at-risk with DAX measures for real-time monitoring
 
-The reporting workflow focuses on measuring customer retention across the complete customer lifecycle.
+## Metrics
 
-The reporting model supports analysis across:
+Key metrics tracked across the platform:
 
-- Customer activity
-- Customer health
-- Customer retention
-- Revenue at Risk
-- Cohort performance
-- Product adoption
-- Regional performance
-- Acquisition channel performance
+| Metric | Value | Source |
+|--------|-------|--------|
+| Total Customers | 15,000 | `customers.csv` |
+| Active Customers | 13,528 (90.2%) | Status field |
+| Inactive Customers | 1,472 (9.8%) | Status field |
+| Total Revenue | $539.9M | Revenue transactions |
+| Churn Revenue | $54.3M (10.1%) | Revenue type breakdown |
+| Contraction Revenue | $54.3M (10.1%) | Revenue type breakdown |
+| Expansion Revenue | $108.6M (20.1%) | Revenue type breakdown |
+| Revenue Transactions | 120,000 | Transaction records |
+| Activity Records | 182,750 | Login/usage events |
 
-Instead of treating reporting as individual dashboards, the repository organizes business reporting around reusable analytical datasets and standardized KPI definitions.
+## Data
 
----
+Simulated SaaS/subscription business with 15,000 customers across 3 segments and 8 industries:
 
-## Reporting Architecture
+| Dataset | Records | Description |
+|---------|---------|-------------|
+| `customers.csv` | 15,000 | Customer profiles — segment, industry, region, contract value ($3K–$250K) |
+| `revenue_transactions.csv` | 120,000 | Monthly revenue per customer — Renewal, Expansion, New, Churn, Contraction |
+| `customer_activity.csv` | 182,750 | Login events, feature usage, support tickets |
 
-```text
-Operational Customer Data
-           │
-           ▼
-SQL Transformation
-           │
-           ▼
-Python ETL & Data Validation
-           │
-           ▼
-Curated Analytical Layer
-           │
-           ▼
-Dimensional Model
-           │
-           ▼
-Power BI Semantic Model
-           │
-           ▼
-Executive Reporting
+### Segment Breakdown
+
+| Segment | Customers | Share |
+|---------|-----------|-------|
+| SMB | 6,788 | 45.3% |
+| Mid-Market | 5,237 | 34.9% |
+| Enterprise | 2,975 | 19.8% |
+
+### Revenue by Type
+
+| Type | Amount | Share |
+|------|--------|-------|
+| Renewal | $215.5M | 39.9% |
+| Expansion | $108.6M | 20.1% |
+| New | $107.3M | 19.9% |
+| Churn | $54.3M | 10.1% |
+| Contraction | $54.3M | 10.1% |
+
+Regenerate with:
+```bash
+pip install pandas numpy
+python data/generate_data.py
 ```
 
-The reporting workflow separates transformation, business logic, analytical modeling, and visualization into independent layers that support maintainable Business Intelligence reporting.
+## Outputs
 
----
+The `outputs/` folder contains actionable deliverables:
 
-## Repository Structure
+| File | Description |
+|------|-------------|
+| `retention_recommendations.csv` | 50 at-risk SMB customers with churn probability, revenue at risk, and prioritized actions |
+| `ltv_impact_summary.csv` | Top 50 highest-risk SMB customers (>65% churn probability) hold $611K in ARR and $577K revenue at risk; 8–12% LTV lift = $554K–$831K annualized |
+| `churn_risk_export.csv` | Full churn risk scores for all 15,000 customers |
+| `customer_health_export.csv` | Health scores combining activity, revenue, and support signals |
+| `revenue_at_risk_export.csv` | Per-customer revenue exposure for prioritized outreach |
+| `executive_business_review.csv` | Monthly executive rollup for business reviews |
+| `quarterly_business_review.csv` | Quarterly aggregation with trend analysis |
 
-```text
-customer-retention-intelligence-platform/
+## Dashboards
 
-├── api/
+Every image here is rendered from this repo's curated data — none of them were drawn by hand. The stills come from
+[`python/generate_dashboard_pngs.py`](python/generate_dashboard_pngs.py) and the interactive page by
+[`python/generate_dashboards.py`](python/generate_dashboards.py), using the same Power BI design system:
+
+- **Executive Overview** — KPI cards, revenue trend, churn risk distribution
+- **Customer Health** — Individual health scores, activity trends, risk flags
+- **Cohort Analysis** — Retention curves by signup cohort and segment
+- **Revenue at Risk** — Top accounts by revenue exposure, intervention priority
+- **Churn Analysis** — Churn-flagged accounts ranked by risk driver
+
+### Executive Overview
+![Executive Overview](assets/executive_overview.png)
+
+### Customer Health
+![Customer Health](assets/customer_health.png)
+
+### Cohort Analysis
+![Cohort Analysis](assets/cohort_analysis.png)
+
+### Revenue at Risk
+![Revenue at Risk](assets/revenue_at_risk.png)
+
+### Churn Analysis
+![Churn Analysis](assets/churn_analysis.png)
+
+### Regenerating the dashboards
+
+```bash
+python data/generate_data.py              # datasets (seeded, reproducible)
+python python/generate_dashboard_pngs.py  # renders assets/*.png
+python python/generate_dashboards.py      # builds assets/dashboard.html (Chart.js inlined, no CDN)
+```
+
+Before Pages goes out, the workflow regenerates both dashboards from the committed data, so the
+live view and the screenshots in this README can't drift apart.
+
+## Project Structure
+
+```
 ├── data/
-│   ├── raw/
-│   ├── curated/
-│   └── warehouse/
-│
+│   ├── raw/              # customers, revenue_transactions, customer_activity
+│   ├── curated/          # Dimension tables, fact tables
+│   └── warehouse/        # Metric definitions, targets
 ├── sql/
+│   ├── ddl/              # Table definitions
+│   ├── staging/          # Staging views
+│   ├── marts/            # Business marts
+│   ├── metrics/          # Metric calculations
+│   ├── monitoring/       # Data quality checks
+│   └── reporting/        # Dashboard queries
 ├── python/
+│   ├── extraction/       # Data loading
+│   ├── transformation/   # Cleaning and enrichment
+│   ├── validation/       # Quality checks
+│   ├── monitoring/       # Pipeline health
+│   ├── reporting/        # Business review and export scripts
+│   ├── generate_dashboard_pngs.py   # Renders the dashboard PNGs in assets/
+│   └── generate_dashboards.py       # Builds the interactive assets/dashboard.html
+├── api/                  # FastAPI churn scoring service
 ├── powerbi/
-├── documentation/
-├── outputs/
-└── README.md
+│   ├── dax/              # DAX measure library
+│   └── model/            # Semantic model docs
+├── outputs/              # Retention recommendations, LTV impact, risk exports
+├── docs/                 # Architecture, glossary, metric dictionary, scorecard
+├── tests/                # Data quality tests (pytest)
+└── assets/               # Dashboard screenshots
 ```
 
-The repository organizes reporting assets, transformation logic, analytical datasets, documentation, and API services into clearly separated components.
+## Running Tests
 
----
+```bash
+pip install pytest pandas numpy
+pytest
+```
 
-## Analytical Model
+10 tests covering data quality, revenue-type reconciliation, and churn-score inputs. The data builds itself on first run, so a fresh clone passes with no setup.
 
-Customer retention reporting is organized around a dimensional model that separates descriptive business entities from measurable customer activity.
+## Tech Stack
 
-### Dimensions
-
-- Customer
-- Product
-- Region
-- Channel
-- Date
-
-### Reporting Facts
-
-The reporting model captures business activity across:
-
-- Customer Activity
-- Customer Retention
-- Revenue Performance
-
-This dimensional structure enables consistent reporting across executive dashboards, cohort analysis, customer health monitoring, and revenue reporting.
-
----
-
-## Data Preparation
-
-Operational customer data is transformed through SQL and Python before being loaded into the reporting model.
-
-The preparation workflow includes:
-
-- Data cleansing
-- Business rule standardization
-- Data validation
-- Curated analytical datasets
-- Reporting-ready outputs
-
-Preparing business logic before visualization helps maintain consistent reporting across analytical assets.
-
----
-
-## API Services
-
-The repository extends beyond reporting by exposing customer retention functionality through a dedicated FastAPI layer.
-
-Available services support:
-
-- Retention analysis
-- Customer recommendations
-- Business metrics
-- Health monitoring
-- Explainable retention insights
-
-The API layer allows analytical outputs to be consumed independently from reporting dashboards while maintaining consistent business logic.
-
----
-
-## Power BI Reporting
-
-Power BI consumes curated analytical datasets through a semantic model designed for customer retention reporting.
-
-Reporting assets focus on:
-
-- Executive KPI monitoring
-- Customer health
-- Cohort analysis
-- Revenue at Risk
-- Retention trends
-- Product performance
-- Regional analysis
-- Channel performance
-
-Business calculations remain centralized within the reporting model to ensure metric consistency across reports.
-
----
-
-## Business Documentation
-
-Engineering documentation is maintained alongside implementation and includes:
-
-- Reporting architecture
-- Business context
-- Metric dictionary
-- Business glossary
-- Data dictionary
-- Reporting playbook
-- Weekly Business Review
-- Executive summary
-- Data quality documentation
-
-Documentation forms part of the reporting solution by providing consistent definitions for business metrics and reporting standards.
-
----
-
-## Engineering Decisions
-
-The reporting system is designed around several core engineering principles.
-
-- Transform operational data before reporting.
-- Standardize business metrics through curated analytical datasets.
-- Separate business logic from visualization.
-- Organize reporting through dimensional modeling.
-- Document reporting standards alongside implementation.
-- Reuse governed datasets across reporting assets and API services.
-
----
-
-## Technology
-
-**Reporting**
-
-- Power BI
-- DAX
-- Power Query
-
-**Data Engineering**
-
-- SQL
-- Python
-- ETL
-- Data Validation
-
-**Modeling**
-
-- Dimensional Modeling
-- Semantic Modeling
-
-**Application**
-
-- FastAPI
-
-**Engineering**
-
-- Reporting Architecture
-- KPI Governance
-- Business Documentation
-- Git
-- GitHub
-
----
-
-## Portfolio Context
-
-This repository is part of a Business Intelligence Engineering portfolio demonstrating how reporting systems are designed through reporting architecture, SQL transformation, Python ETL, dimensional modeling, KPI governance, semantic modeling, and executive reporting.
-
-Related repositories:
-
-- Executive KPI Governance Platform
-- Growth Funnel Performance Review
-- Marketplace Growth Performance Review
-
-Together, these repositories demonstrate reporting systems across customer retention, KPI governance, growth analytics, and marketplace performance while following a consistent Business Intelligence engineering approach.
-
----
-
-## Author
-
-**Kavyanjali Karan**
-
-Computer Science student building production-style Business Intelligence reporting systems with a focus on reporting architecture, dimensional modeling, KPI governance, semantic modeling, and engineering documentation.
-
----
-
-## Engineering Outcomes
-
-This repository demonstrates the ability to:
-
-- Design analytical models focused on customer retention, engagement, and behavioral reporting.
-- Prepare curated datasets that support retention analysis through repeatable SQL and Python transformation workflows.
-- Structure business metrics that enable consistent reporting of customer activity, segmentation, and retention trends.
-- Separate data engineering, analytical modeling, and reporting responsibilities into reusable project components.
-- Document reporting logic and repository organization to support reproducible Business Intelligence workflows.
-
-````
+SQL, Python (pandas, numpy), FastAPI, Power BI, DAX, Docker, GitHub Actions, pytest, Git

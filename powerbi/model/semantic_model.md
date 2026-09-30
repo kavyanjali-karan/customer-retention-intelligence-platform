@@ -20,6 +20,5 @@ Consumers
 
 Power BI
 
-Tableau
 
 Executive Business Review

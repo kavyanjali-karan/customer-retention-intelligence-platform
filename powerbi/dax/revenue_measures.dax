@@ -1,19 +1,24 @@
 MRR =
-
 SUM(
+    fact_retention[mrr]
+)
 
-fact_customer_retention[revenue]
+--------------------------------
 
+ARR =
+SUM(
+    fact_retention[arr]
 )
 
 --------------------------------
 
 Revenue Target =
-
-500000
+LOOKUPVALUE(
+    revenue_targets[arr_target],
+    revenue_targets[month], FORMAT(TODAY(), "YYYY-MM")
+)
 
 --------------------------------
 
 Revenue Variance =
-
-[MRR]-[Revenue Target]
+[ARR] - [Revenue Target]

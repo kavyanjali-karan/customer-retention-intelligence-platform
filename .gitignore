@@ -1,5 +1,5 @@
 __pycache__/
-
+.pytest_cache/
 .ipynb_checkpoints/
 
 *.pyc
@@ -7,23 +7,23 @@ __pycache__/
 .env
 
 venv/
-
 .venv/
 
 *.pbix
-
 *.twbx
 
 .DS_Store
-
 .idea/
-
 .vscode/
 
-outputs/temp/
-
 logs/
-
 dist/
-
 build/
+
+# Generated outputs
+outputs/
+
+# Data artifacts (regenerable)
+data/raw/*.csv
+data/curated/*.csv
+data/warehouse/*.csv

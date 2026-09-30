@@ -1,6 +1,6 @@
 let
     Source = Csv.Document(
-        File.Contents("..\data\dim_customer.csv"),
+        File.Contents("..\..\data\curated\dim_customer.csv"),
         [
             Delimiter=",",
             Encoding=65001,

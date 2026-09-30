@@ -4,7 +4,6 @@ Subscription businesses depend on long-term customer retention rather than one-t
 
 Business Intelligence Engineering owns the governed reporting layer used by executives to monitor customer lifecycle performance, revenue stability, operational health, and retention strategy.
 
-The platform centralizes business metrics into a reusable semantic layer consumed by Power BI, Tableau, APIs, and automated business reviews.
 
 ---
 

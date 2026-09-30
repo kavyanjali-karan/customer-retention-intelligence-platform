@@ -1,29 +1,19 @@
-Visitors =
-
+Active Sessions =
 SUM(
-
-fact_customer_retention[visitors]
-
+    fact_customer_activity[sessions]
 )
 
 --------------------------------
 
-Signups =
-
-SUM(
-
-fact_customer_retention[signups]
-
+Active Users =
+DISTINCTCOUNT(
+    fact_customer_activity[customer_id]
 )
 
 --------------------------------
 
-Signup Rate =
-
+Activation Rate =
 DIVIDE(
-
-[Signups],
-
-[Visitors]
-
+    [Active Users],
+    [Paid Customers]
 )

@@ -2,8 +2,9 @@ import pandas as pd
 import numpy as np
 from faker import Faker
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, date
 
+Faker.seed(42)
 fake = Faker()
 np.random.seed(42)
 
@@ -127,8 +128,8 @@ for i in range(1, N_CUSTOMERS + 1):
         "region_id": f"REG{np.random.randint(1,13):02}",
         "channel_id": f"CH{np.random.randint(1,9):02}",
         "signup_date": fake.date_between(
-            start_date="-5y",
-            end_date="-60d"
+            start_date=date(2019, 1, 1),
+            end_date=date(2023, 12, 31)
         ),
         "status": np.random.choice(
             [
@@ -323,8 +324,8 @@ subscription_rows = []
 for _, customer in customers_df.iterrows():
 
     start_date = fake.date_between(
-        start_date="-3y",
-        end_date="-180d"
+        start_date=date(2021, 1, 1),
+        end_date=date(2024, 12, 31)
     )
 
     renewal_date = pd.to_datetime(

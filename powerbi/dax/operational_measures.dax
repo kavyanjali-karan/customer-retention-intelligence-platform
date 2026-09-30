@@ -1,23 +1,16 @@
 Rows Loaded =
-
 COUNTROWS(
-
-fact_customer_retention
-
+    fact_revenue
 )
 
 --------------------------------
 
 Refresh Status =
-
 "Success"
 
 --------------------------------
 
 Customers Loaded =
-
 DISTINCTCOUNT(
-
-fact_customer_retention[customer_key]
-
+    dim_customer[customer_id]
 )

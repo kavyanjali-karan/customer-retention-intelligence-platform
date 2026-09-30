@@ -1,33 +1,21 @@
 Revenue MTD =
-
 TOTALMTD(
-
-[Total Revenue],
-
-dim_date[full_date]
-
+    [Total Revenue],
+    dim_date[date]
 )
 
 --------------------------------
 
 Revenue QTD =
-
 TOTALQTD(
-
-[Total Revenue],
-
-dim_date[full_date]
-
+    [Total Revenue],
+    dim_date[date]
 )
 
 --------------------------------
 
 Revenue YTD =
-
 TOTALYTD(
-
-[Total Revenue],
-
-dim_date[full_date]
-
+    [Total Revenue],
+    dim_date[date]
 )

@@ -1,29 +1,20 @@
 Total Revenue =
-
 SUM(
-
-fact_customer_retention[revenue]
-
+    fact_revenue[amount]
 )
 
 --------------------------------
 
 Paid Customers =
-
-SUM(
-
-fact_customer_retention[paid_customers]
-
+CALCULATE(
+    DISTINCTCOUNT(fact_retention[customer_id]),
+    fact_retention[mrr] > 0
 )
 
 --------------------------------
 
 Revenue Per Customer =
-
 DIVIDE(
-
-[Total Revenue],
-
-[Paid Customers]
-
+    [Total Revenue],
+    [Paid Customers]
 )
