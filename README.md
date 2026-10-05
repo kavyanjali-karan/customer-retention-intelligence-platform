@@ -2,21 +2,46 @@
 
 [![CI](https://github.com/kavyanjali-karan/customer-retention-intelligence-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/kavyanjali-karan/customer-retention-intelligence-platform/actions/workflows/ci.yml) [![tests: 10 passed](https://img.shields.io/badge/tests-10%20passed-2ea44f)](tests/) [![license: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-A churn prediction and retention analytics system for a **simulated** 15,000-customer SaaS business: it scores every customer for churn risk, maps each segment to targeted retention actions, and projects 8–12% buyer lifetime value lift on the highest-risk cohort ($554K–$831K annualized impact).
+Every Monday, the customer success team in this story faced the same
+dilemma: a high-value Enterprise account had gone quiet, a cluster of SMB
+customers was quietly shrinking their annual spend, and there was time
+and budget for exactly one save play. No data existed to say which one to
+pick.
 
-**Live dashboard:** [interactive dashboard](https://kavyanjali-karan.github.io/customer-retention-intelligence-platform/dashboard.html) — updated automatically whenever this repo changes.
+This platform is built for that decision. It scores all 15,000 customers
+of a **simulated** SaaS business for churn risk from their activity and
+revenue history, maps each segment to a specific retention playbook, and
+projects 8–12% lifetime value lift on the highest-risk SMB cohort
+($554K–$831K annualized). The
+[interactive dashboard](https://kavyanjali-karan.github.io/customer-retention-intelligence-platform/dashboard.html)
+regenerates whenever the repo changes, so the live page and the
+screenshots below never disagree.
 
 ## Why churn was invisible
 
-Customer churn was understood in aggregate but not at the individual level. The success team had no way to prioritize which accounts to save first, and retention campaigns were deployed uniformly regardless of risk. High-value Enterprise accounts churned at the same rate as SMBs, costing the business ~$54M in annual churn revenue with no structured intervention process.
+Churn showed up in the aggregate numbers, but never early enough to act
+on. Nobody could answer "which accounts do we save first?", so retention
+campaigns went out uniformly regardless of risk, and high-value
+Enterprise accounts churned at the same rate as SMBs. Across a year, that
+is roughly $54M of revenue walking out the door with no intervention
+process attached to it.
 
-## How it's put together
+## What the system does
 
-1. **Churn Risk Scoring** — FastAPI service that scores each of 15,000 customers for churn probability using activity signals (login frequency, feature usage, support tickets) and revenue history
-2. **Segment-Level Retention Actions** — Mapped each risk tier to specific intervention playbooks for SMB, Mid-Market, and Enterprise segments
-3. **Revenue-at-Risk Analysis** — Quantified $54.3M in churn revenue and $54.3M in contraction, with per-customer revenue exposure for prioritized outreach
-4. **LTV Impact Modeling** — Projected that targeting the top 50 highest-risk accounts ($611K ARR, $577K revenue at risk) with 8–12% LTV improvement produces $554K–$831K in annualized recovered revenue
-5. **Executive Dashboards** — Power BI reports covering customer health scores, cohort retention, and revenue-at-risk with DAX measures for real-time monitoring
+1. **Scores all 15,000 customers** for churn probability. A FastAPI
+   service turns activity signals (login frequency, feature usage,
+   support tickets) plus revenue history into a per-customer risk score
+2. **Maps each risk tier to a playbook**, written separately for SMB,
+   Mid-Market and Enterprise segments
+3. **Puts a number on exposure**: $54.27M in churn revenue and $54.26M in
+   contraction (coincidentally close this year), broken down per customer
+   so outreach can be prioritized
+4. **Sizes the prize**: the top 50 highest-risk SMB accounts hold $611K
+   in ARR and $577K revenue at risk; an 8–12% LTV improvement on that
+   cohort is worth $554K–$831K in annualized recovered revenue
+5. **Puts it in front of the business**: Power BI reports for customer
+   health scores, cohort retention and revenue-at-risk, with DAX measures
+   for monitoring
 
 ## Metrics
 
@@ -28,8 +53,8 @@ Key metrics tracked across the platform:
 | Active Customers | 13,528 (90.2%) | Status field |
 | Inactive Customers | 1,472 (9.8%) | Status field |
 | Total Revenue | $539.9M | Revenue transactions |
-| Churn Revenue | $54.3M (10.1%) | Revenue type breakdown |
-| Contraction Revenue | $54.3M (10.1%) | Revenue type breakdown |
+| Churn Revenue | $54.27M (10.1%) | Revenue type breakdown |
+| Contraction Revenue | $54.26M (10.1%) | Revenue type breakdown |
 | Expansion Revenue | $108.6M (20.1%) | Revenue type breakdown |
 | Revenue Transactions | 120,000 | Transaction records |
 | Activity Records | 182,750 | Login/usage events |
@@ -59,10 +84,10 @@ Simulated SaaS/subscription business with 15,000 customers across 3 segments and
 | Renewal | $215.5M | 39.9% |
 | Expansion | $108.6M | 20.1% |
 | New | $107.3M | 19.9% |
-| Churn | $54.3M | 10.1% |
-| Contraction | $54.3M | 10.1% |
+| Churn | $54.27M | 10.1% |
+| Contraction | $54.26M | 10.1% |
 
-Regenerate with:
+To rebuild the datasets from scratch:
 ```bash
 pip install pandas numpy
 python data/generate_data.py
@@ -84,9 +109,10 @@ The `outputs/` folder contains actionable deliverables:
 
 ## Dashboards
 
-Every image here is rendered from this repo's curated data — none of them were drawn by hand. The stills come from
-[`python/generate_dashboard_pngs.py`](python/generate_dashboard_pngs.py) and the interactive page by
-[`python/generate_dashboards.py`](python/generate_dashboards.py), using the same Power BI design system:
+I didn't draw a single chart here. Both renderers read this repo's
+curated data: [`python/generate_dashboard_pngs.py`](python/generate_dashboard_pngs.py)
+for the stills and [`python/generate_dashboards.py`](python/generate_dashboards.py)
+for the interactive page, all on one shared visual language:
 
 - **Executive Overview** — KPI cards, revenue trend, churn risk distribution
 - **Customer Health** — Individual health scores, activity trends, risk flags
@@ -117,8 +143,9 @@ python python/generate_dashboard_pngs.py  # renders assets/*.png
 python python/generate_dashboards.py      # builds assets/dashboard.html (Chart.js inlined, no CDN)
 ```
 
-Before Pages goes out, the workflow regenerates both dashboards from the committed data, so the
-live view and the screenshots in this README can't drift apart.
+The Pages workflow reruns both renderers against the committed data
+before it publishes, which is why the live view and these screenshots
+can't drift apart.
 
 ## Project Structure
 

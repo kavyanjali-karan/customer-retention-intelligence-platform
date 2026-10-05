@@ -23,6 +23,9 @@ build/
 # Generated outputs
 outputs/
 
+# Trained model artifacts (regenerable)
+models/*.pkl
+
 # Data artifacts (regenerable)
 data/raw/*.csv
 data/curated/*.csv
