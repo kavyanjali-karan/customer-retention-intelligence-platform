@@ -95,7 +95,7 @@ python data/generate_data.py
 
 ## Outputs
 
-The `outputs/` folder contains actionable deliverables:
+The `outputs/` folder contains:
 
 | File | Description |
 |------|-------------|
